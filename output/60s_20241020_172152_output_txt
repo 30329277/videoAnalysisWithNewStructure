@@ -1,0 +1,24 @@
+Person detected at 00:00:00, duration: 3.0 seconds
+Person detected at 00:00:06, duration: 3.0 seconds
+Active person detected at 00:00:06, duration: 3.0 seconds
+Person detected at 00:00:15, duration: 3.0 seconds
+Active person detected at 00:00:15, duration: 3.0 seconds
+Person detected at 00:00:21, duration: 3.0 seconds
+Active person detected at 00:00:21, duration: 3.0 seconds
+Person detected at 00:00:18, duration: 3.0 seconds
+Active person detected at 00:00:18, duration: 3.0 seconds
+Person detected at 00:00:24, duration: 3.0 seconds
+Active person detected at 00:00:24, duration: 3.0 seconds
+Person detected at 00:00:30, duration: 3.0 seconds
+Active person detected at 00:00:30, duration: 3.0 seconds
+Person detected at 00:00:45, duration: 3.0 seconds
+Person detected at 00:00:48, duration: 3.0 seconds
+Person detected at 00:00:54, duration: 3.0 seconds
+Active person detected at 00:00:54, duration: 3.0 seconds
+
+Total detected time: 30.0 seconds (00:00:30), (50.00% of video duration).
+Total active time: 21.0 seconds (00:00:21), (35.00% of video duration).
+Person detected from 00:00:00 to 00:00:09
+Person detected from 00:00:15 to 00:00:27
+Person detected from 00:00:30 to 00:00:33
+Person detected from 00:00:45 to 00:00:51

@@ -137,7 +137,10 @@ def detect_people_in_video(video_path, model, transform, target_label_id, interv
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     video_name = os.path.basename(video_path).split('.')[0]
     output_file_prefix = config['Paths']['output_file_prefix']
-    output_file = f"{video_name}_{timestamp}_{output_file_prefix}txt"
+    output_dir = "output"  # Specify the output directory
+    os.makedirs(output_dir, exist_ok=True)  # Create the directory if it doesn't exist
+
+    output_file = os.path.join(output_dir, f"{video_name}_{timestamp}_{output_file_prefix}txt") #Join the directory and file name
 
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
