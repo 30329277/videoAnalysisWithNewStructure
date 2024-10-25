@@ -1,0 +1,23 @@
+
+Total detected time: 1220.0 seconds (00:20:20), (39.44% of video duration).
+Total active time: 920.0 seconds (00:15:20), (29.74% of video duration).
+Person detected from 00:00:30 to 00:00:00
+Person detected from 00:00:40 to 00:00:40
+Person detected from 00:01:00 to 00:00:50
+Person detected from 00:01:20 to 00:02:10
+Person detected from 00:02:30 to 00:05:00
+Person detected from 00:05:20 to 00:05:30
+Person detected from 00:05:50 to 00:08:30
+Person detected from 00:27:30 to 00:27:30
+Person detected from 00:27:50 to 00:28:00
+Person detected from 00:28:30 to 00:28:30
+Person detected from 00:29:00 to 00:29:00
+Person detected from 00:29:20 to 00:35:50
+Person detected from 00:40:40 to 00:41:00
+Person detected from 00:41:20 to 00:42:10
+Person detected from 00:42:30 to 00:42:30
+Person detected from 00:43:00 to 00:43:00
+Person detected from 00:43:20 to 00:43:20
+Person detected from 00:43:40 to 00:43:40
+Person detected from 00:45:10 to 00:47:30
+Person detected from 00:47:50 to 00:47:50
