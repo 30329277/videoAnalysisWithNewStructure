@@ -205,12 +205,7 @@ def detect_people_in_video(video_path, model, transform, target_label_id, interv
         count_label = f"{last_count} person{'s' if last_count != 1 else ''}"
         f.write(f"{count_label} detected from {time_start.strftime('%Y-%m-%d %H:%M:%S')} to {time_end.strftime('%Y-%m-%d %H:%M:%S')}\n")
 
-
-
-
     detected_percentage = (detected_times / video_duration) * 100 if video_duration > 0 else 0
     print(f"\nTotal detected time: {detected_times} seconds ({format_time(detected_times)}), ({detected_percentage:.2f}% of video duration).")
-
-
 
     return detected_times, active_times, fps

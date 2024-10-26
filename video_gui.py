@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 import os
+import cv2  # Import cv2 for video duration calculation
 from video_analysis import detect_people_in_video, format_time, model, transform, COCO_INSTANCE_CATEGORY_NAMES, device
 import utils
 import chart_generator  # 导入 add_chart 模块
@@ -49,7 +50,7 @@ def analyze_video(video_path, result_label):
             result_label.config(text="视频处理失败")
             return
 
-        result_text.set(f"检测到人员时间：{format_time(detected_times)}\n活跃时间：{format_time(active_times)}")
+        result_text.set(f"累计检测到人员时间：{format_time(detected_times)}\n累计活跃时间：{format_time(active_times)}")
         result_label.config(text=f"检测到人员时间：{format_time(detected_times)}, 活跃时间：{format_time(active_times)}")
     except Exception as e:
         result_label.config(text=f"错误：{e}")
@@ -114,9 +115,35 @@ def analyze_all_videos():
         return
 
     mass_result.set("正在分析所有选定的视频...")
+    cumulative_detected_time = 0
+    total_video_duration = 0
+
     for video_path, result_label in selected_videos_data:
-        analyze_video(video_path, result_label)
+        try:
+            # Get video duration using cv2
+            video = cv2.VideoCapture(video_path)
+            fps = video.get(cv2.CAP_PROP_FPS)
+            total_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
+            video_duration = total_frames / fps if fps > 0 else 0  # Handle cases with zero fps
+            video.release()
+
+            detected_times, active_times, _ = detect_people_in_video(video_path, model, transform, 1)
+            if detected_times != -1:
+                cumulative_detected_time += detected_times
+            total_video_duration += video_duration
+            result_label.config(text=f"检测到人员时间：{format_time(detected_times)}, 活跃时间：{format_time(active_times)}")
+        except Exception as e:
+            result_label.config(text=f"错误：{e}")
+            continue #Skip to the next video if an error occurs
+
+
+    percentage = (cumulative_detected_time / total_video_duration) * 100 if total_video_duration > 0 else 0
+
+    result_text.set(f"累计检测到人员时间：{format_time(cumulative_detected_time)}\n"
+                     f"所有视频总时长：{format_time(total_video_duration)}\n"
+                     f"人员检测时间占比：{percentage:.2f}%")
     mass_result.set("所有选定视频分析完成。")
+
 
 
 root.mainloop()
