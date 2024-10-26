@@ -4,6 +4,8 @@ from tkinter import ttk
 import os
 from video_analysis import detect_people_in_video, format_time, model, transform, COCO_INSTANCE_CATEGORY_NAMES, device
 import utils
+import chart_generator  # 导入 add_chart 模块
+import aggregate_output  # Import the new aggregation module
 
 root = tk.Tk()
 root.title("视频分析工具")
@@ -14,7 +16,6 @@ video_files = []
 video_checkboxes = []
 result_text = tk.StringVar()
 mass_result = tk.StringVar()
-
 
 # --- Functions ---
 def browse_directory():
@@ -58,6 +59,10 @@ def select_deselect_all(select):
     for var, _, _ in video_checkboxes:
         var.set(select)
 
+def add_chart():
+    aggregate_output.aggregate_txt_files()  # Aggregate all .txt files
+    chart_generator.analyze_and_chart()  # 调用 chart_generator 中的 analyze_and_chart 函数
+
 # --- GUI setup ---
 frame_directory = ttk.Frame(root)
 frame_directory.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
@@ -91,8 +96,12 @@ deselect_all_button.grid(row=0, column=1, padx=(0, 10))
 analyze_all_button = ttk.Button(frame_mass_analysis, text="分析所有选定的视频", command=lambda: analyze_all_videos())
 analyze_all_button.grid(row=0, column=2, padx=(0, 10))
 
+# 新增“增加饼图”按钮
+add_chart_button = ttk.Button(frame_mass_analysis, text="增加饼图", command=add_chart)
+add_chart_button.grid(row=0, column=3, padx=(0, 10))
+
 mass_result_label = ttk.Label(frame_mass_analysis, textvariable=mass_result)
-mass_result_label.grid(row=0, column=3)
+mass_result_label.grid(row=0, column=4)
 
 def analyze_all_videos():
     selected_videos_data = [
