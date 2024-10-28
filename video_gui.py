@@ -46,12 +46,21 @@ def update_video_list():
 def analyze_video(video_path, result_label):
     try:
         detected_times, active_times, fps = detect_people_in_video(video_path, model, transform, 1)  # 1 is the label ID for 'person'
+
+        # 获取视频时长
+        video = cv2.VideoCapture(video_path)
+        fps = video.get(cv2.CAP_PROP_FPS)
+        total_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
+        video_duration = total_frames / fps if fps > 0 else 0  # Handle cases with zero fps
+        video.release()
+        video_duration_formatted = format_time(video_duration)
+
         if detected_times == -1:
             result_label.config(text="视频处理失败")
             return
 
-        result_text.set(f"累计检测到人员时间：{format_time(detected_times)}\n累计活跃时间：{format_time(active_times)}")
-        result_label.config(text=f"检测到人员时间：{format_time(detected_times)}, 活跃时间：{format_time(active_times)}")
+        result_text.set(f"累计检测到人员时间：{format_time(detected_times)}\n视频总时长：{video_duration_formatted}")
+        result_label.config(text=f"检测到人员时间：{format_time(detected_times)}, 视频时长：{video_duration_formatted}")
     except Exception as e:
         result_label.config(text=f"错误：{e}")
 
@@ -131,7 +140,12 @@ def analyze_all_videos():
             if detected_times != -1:
                 cumulative_detected_time += detected_times
             total_video_duration += video_duration
-            result_label.config(text=f"检测到人员时间：{format_time(detected_times)}, 活跃时间：{format_time(active_times)}")
+
+            # 计算人员检测时间占比
+            percentage = (detected_times / video_duration) * 100 if video_duration > 0 else 0
+
+            result_label.config(text=f"检测到人员时间：{format_time(detected_times)}, 视频时长：{format_time(video_duration)}, 占比：{percentage:.2f}%") # 修改了这里
+            
         except Exception as e:
             result_label.config(text=f"错误：{e}")
             continue #Skip to the next video if an error occurs
