@@ -10,7 +10,7 @@ os.makedirs(output_dir, exist_ok=True)
 segment_duration = 3 * 60  # 3分钟
 
 # 定义每隔多少秒保存一帧画面
-frame_interval = 3 * 60  # 每5秒保存一帧
+frame_interval = 0.5 * 60  # 每5秒保存一帧
 
 # ffmpeg 可执行文件路径
 ffmpeg_path = r"ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"

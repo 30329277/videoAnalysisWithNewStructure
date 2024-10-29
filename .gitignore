@@ -9,6 +9,10 @@ data/
 split_video/
 merge_video/
 output/
+rawMaterial/
+
+# 忽略 Python 构建文件
+*.pth
 
 # 忽略 Python 缓存和编译文件
 __pycache__/
