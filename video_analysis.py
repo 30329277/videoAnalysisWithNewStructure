@@ -23,6 +23,10 @@ pretrained = config['Model'].getboolean('pretrained')
 model = models.detection.__dict__[model_name](pretrained=pretrained)
 model.eval()
 
+# Move model to GPU if available
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model.to(device)  # Moved model to GPU early
+
 # Load COCO category names from config file
 try:
     COCO_INSTANCE_CATEGORY_NAMES = config['COCO_Categories']['categories'].split(',')
@@ -37,16 +41,14 @@ transform = transforms.Compose([
     transforms.ToTensor()
 ])
 
-# Move model to GPU if available
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model.to(device)
 
 threshold = config['Model'].getfloat('threshold')
 target_label_id = config['Model'].getint('target_label_id')
 
 
 def process_frame(frame, model, transform, target_label_id, threshold=threshold):
-    frame_tensor = transform(frame).unsqueeze(0).to(device)
+    # Ensure frame is on the correct device (GPU)
+    frame_tensor = transform(frame).unsqueeze(0).to(device) 
     with torch.no_grad():
         predictions = model(frame_tensor)
     people_boxes = []
@@ -135,14 +137,14 @@ def detect_people_in_video(video_path, model, transform, target_label_id, interv
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     video_duration = total_frames / fps
     detected_times = 0
-    active_times = 0  # This is not used in the updated logic, but kept for compatibility
+    active_times = 0 
     lock = Lock()
     processed_frames = 0
-    previous_boxes = None  # This is not used in the updated logic, but kept for compatibility
+    previous_boxes = None  
     progress_lock = Lock()
     start_time = time.time()
-    last_person_detected_time = 0 # This is not used in the updated logic, but kept for compatibility
-    person_detected_intervals = [] # This is not used in the updated logic, but kept for compatibility
+    last_person_detected_time = 0  
+    person_detected_intervals = []  
     person_counts = []
 
 
@@ -152,13 +154,12 @@ def detect_people_in_video(video_path, model, transform, target_label_id, interv
             while True:
                 try:
                     frame_num, frame = frame_queue.get(timeout=1)
-                    current_boxes = process_frame(frame, model, transform, target_label_id, threshold)
+                    current_boxes = process_frame(frame, model, transform, target_label_id, threshold) # Model is already on GPU
                     num_people = len(current_boxes)
                     with lock:
                         person_counts.append((frame_num, num_people))
                         if num_people > 0:
                             detected_times += interval
-
 
                     with progress_lock:
                         processed_frames += 1
