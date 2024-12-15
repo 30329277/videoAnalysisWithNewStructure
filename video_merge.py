@@ -2,8 +2,10 @@ import os
 import subprocess
 import shutil  # 用于文件操作
 
-input_dir = r"split_video"  # 使用原始字符串，替换为你的输入文件夹路径
-output_dir = r"merge_video"
+# input_dir = r"split_video"  # 使用原始字符串，替换为你的输入文件夹路径
+input_dir = r"D:\PythonProject\TorchTrainer\output_video"  # 使用原始字符串，替换为你的输入文件夹路径
+# output_dir = r"merge_video"
+output_dir = r"D:\PythonProject\TorchTrainer\output_video"
 os.makedirs(output_dir, exist_ok=True)
 
 # ffmpeg 可执行文件路径
